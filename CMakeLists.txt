@@ -56,6 +56,7 @@ set (SELECTED_CLANG_LIBS
 ###############################################################################
 add_executable(MyClangTool
     source/main.cpp
+    source/objc_obfuscator.cpp
     )
 
 target_link_libraries(MyClangTool  

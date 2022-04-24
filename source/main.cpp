@@ -21,33 +21,24 @@
 // IN THE SOFTWARE.
 //===----------------------------------------------------------------------===//
 
-
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
-
-using namespace llvm;
-using namespace clang::tooling;
-
-class XX
-{
-
-};
+#include "objc_obfuscator.hpp"
 
 static llvm::cl::OptionCategory MyToolCategory("my-tool options");
 static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::extrahelp MoreHelp("\nMore help content ...\n");
 
-int main(int argc, const char **argv) {
-  auto OptionsParser = CommonOptionsParser::create(argc, argv, MyToolCategory);
-  ClangTool Tool(OptionsParser->getCompilations(),
-                 OptionsParser->getSourcePathList());
+
+int main(int argc, const char **argv)
+{
+    auto OptionsParser = CommonOptionsParser::create(argc, argv, MyToolCategory);
+    ClangTool Tool(OptionsParser->getCompilations(),
+                   OptionsParser->getSourcePathList());
 #if 0
   CommonOptionsParser OptionsParser(argc, argv, MyToolCategory);
   ClangTool Tool(OptionsParser.getCompilations(),
       OptionsParser.getSourcePathList());
 #endif
-  return Tool.run(newFrontendActionFactory<clang::SyntaxOnlyAction>().get());
-  return 0;
+    // auto action = newFrontendActionFactory<ObfASTFrontendAction>();
+    auto action = newFrontendActionFactory<clang::SyntaxOnlyAction>();
+    return Tool.run(action.get());
 }
